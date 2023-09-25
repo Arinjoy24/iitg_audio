@@ -15,14 +15,26 @@ def get_wav_loudness(folder_path):
 
     return wav_loudness
 
-def plot_wav_loudness(wav_loudness):
+def plot_wav_loudness(wav_loudness, output_folder):
     plt.hist(wav_loudness, bins=20, edgecolor='black')
     plt.xlabel('Loudness (dB)')
-    plt.ylabel('Frequency')
+    plt.ylabel('Count of WAV Files')
     plt.title('Loudness of WAV Files')
-    plt.show()
+    plt.savefig(os.path.join(output_folder, 'loudness_histogram.png'))
+    plt.close()
 
 if __name__ == "__main__":
-    folder_path = 'C:/Users/arinj/Downloads/Histogram (Loudness)'
+    folder_path = '/workspaces/iitg_audio/Output'
+    output_folder = 'Loudness Histogram'
+    
+    # Check if the output folder exists, if not, create it
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+    
+    # Check if the folder exists
+    if not os.path.exists(folder_path):
+        print("Folder not found.")
+        exit(1)
+    
     wav_loudness = get_wav_loudness(folder_path)
-    plot_wav_loudness(wav_loudness)
+    plot_wav_loudness(wav_loudness, output_folder)
